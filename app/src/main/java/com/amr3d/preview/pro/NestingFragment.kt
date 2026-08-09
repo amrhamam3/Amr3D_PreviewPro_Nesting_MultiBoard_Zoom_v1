@@ -223,7 +223,7 @@ class NestingFragment : Fragment() {
                     .setTitle(getString(R.string.nesting_board_color))
                     .setSingleChoiceItems(names, selected) { d, which ->
                         boardColor = colors[which]
-                        colorButton.backgroundTintList = android.content.res.ColorStateList.valueOf(boardColor)
+                        this.backgroundTintList = android.content.res.ColorStateList.valueOf(boardColor)
                         d.dismiss()
                     }.show()
             }
@@ -287,7 +287,6 @@ class NestingFragment : Fragment() {
         val bw = boardWEdit.text.toString().toDoubleOrNull()?.coerceAtLeast(1.0) ?: 1220.0
         val bh = boardHEdit.text.toString().toDoubleOrNull()?.coerceAtLeast(1.0) ?: 2440.0
         val copies = copiesEdit.text.toString().toIntOrNull()?.coerceIn(1, 10000) ?: 1
-        val clearance = clearanceEdit.text.toString().toDoubleOrNull()?.coerceAtLeast(0.0) ?: 0.0
         val step = rotationEdit.text.toString().toDoubleOrNull()?.coerceIn(1.0, 90.0) ?: 15.0
         val deviation = deviationEdit.text.toString().toDoubleOrNull()?.coerceIn(0.0, 90.0) ?: 10.0
         val cnc = processSpinner.selectedItemPosition == 0
