@@ -105,8 +105,8 @@ class NestingPreviewView(context: Context) : View(context) {
             val availH = height * 0.82f
             baseScale = min(availW / totalW.toFloat(), availH / maxH.toFloat()).coerceAtLeast(0.02f)
             scale = baseScale
-            val contentW = totalW * scale
-            val contentH = maxH * scale
+            val contentW = (totalW * scale).toFloat()
+            val contentH = (maxH * scale).toFloat()
             tx = (width - contentW) / 2f
             ty = (height - contentH) / 2f + 20f
             invalidate()
@@ -163,7 +163,8 @@ class NestingPreviewView(context: Context) : View(context) {
             hp.close()
             canvas.drawPath(hp, piecePaint)
         }
-        val b = path.computeBounds(RectF(), true)
+        val b = RectF()
+        path.computeBounds(b, true)
         val old = labelPaint.textSize
         labelPaint.textSize = 10f / scale
         canvas.drawText(piece.index.toString(), b.centerX(), b.centerY(), labelPaint)
