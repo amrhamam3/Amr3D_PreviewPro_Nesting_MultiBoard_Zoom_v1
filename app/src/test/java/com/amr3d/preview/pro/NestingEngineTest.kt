@@ -135,6 +135,18 @@ class NestingEngineTest {
             clearanceMm = 0.0
         )
         val result = NestingEngine.nest(shape, config)
+
+        // Diagnostic: print exact placement of every piece so a failure is traceable.
+        println("\n=== zero-clearance diagnostic ===")
+        println("Placed: ${result.totalPlaced} / requested: 4, boards: ${result.boards.size}")
+        for (board in result.boards) {
+            println("Board ${board.index} (${board.width}x${board.height}):")
+            for (p in board.pieces) {
+                println("  piece #${p.index} at x=${p.x}, y=${p.y}, rot=${p.rotationDeg}, bounds=${p.boundsWidth}x${p.boundsHeight}")
+            }
+        }
+        println("=== end diagnostic ===\n")
+
         assertEquals("Expected all 4 pieces to fit with zero clearance", 4, result.totalPlaced)
         assertEquals(1, result.boards.size)
     }
