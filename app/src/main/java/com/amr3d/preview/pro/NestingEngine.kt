@@ -445,7 +445,17 @@ object NestingEngine {
             min(max(a1.x,a2.x),max(b1.x,b2.x))-max(min(a1.x,a2.x),min(b1.x,b2.x))
         else
             min(max(a1.y,a2.y),max(b1.y,b2.y))-max(min(a1.y,a2.y),min(b1.y,b2.y))
-        return overlap>EPS
+        if (overlap<=EPS) return false
+        // Two consistently-wound polygons that merely touch along a shared boundary
+        // traverse that shared edge in OPPOSITE directions. Genuine interior overlap
+        // (both polygon interiors on the same side of the shared line) traverses it
+        // in the SAME direction. Only the same-direction case is a real collision;
+        // opposite-direction is ordinary edge-to-edge touching and must be allowed
+        // at zero clearance.
+        val ax=a2.x-a1.x; val ay=a2.y-a1.y
+        val bx=b2.x-b1.x; val by=b2.y-b1.y
+        val dot=ax*bx+ay*by
+        return dot>EPS
     }
 
     private fun pointInStrict(p:NestingPoint, poly:List<NestingPoint>):Boolean {
